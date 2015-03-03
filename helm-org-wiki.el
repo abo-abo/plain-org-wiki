@@ -1,5 +1,26 @@
 ;;; helm-org-wiki.el --- Simple jump-to-org-files in a directory package
 
+;; Copyright (C) 2015 Oleh Krehel
+
+;; Author: Oleh Krehel <ohwoeowho@gmail.com>
+;; Version: 0.1.0
+;; Keywords: completion
+
+;; This file is not part of GNU Emacs
+
+;; This file is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation; either version 3, or (at your option)
+;; any later version.
+
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+
+;; For a full copy of the GNU General Public License
+;; see <http://www.gnu.org/licenses/>.
+
 ;;; Commentary:
 ;;
 
@@ -12,10 +33,8 @@
   :group 'org
   :prefix "helm-org-wiki-")
 
-
 (defcustom helm-org-wiki-directory "~/org/wiki/"
   "Directory where files for `helm-org-wiki' are stored."
-  :group 'helm-org-wiki
   :type 'directory)
 
 (defun helm-org-wiki-files ()
@@ -24,22 +43,22 @@
     (mapcar #'file-name-sans-extension
             (file-expand-wildcards "*.org"))))
 
+(defun helm-org-wiki-find-file (x)
+  "Open X as a file with org extension in `helm-org-wiki-directory'."
+  (find-file (expand-file-name
+              (format "%s.org" x)
+              helm-org-wiki-directory)))
+
 (defvar helm-source-org-wiki
-  `((name . "Projects")
+  '((name . "Projects")
     (candidates . helm-org-wiki-files)
-    (action . ,(lambda (x)
-                       (find-file (expand-file-name
-                                   (format "%s.org" x)
-                                   helm-org-wiki-directory))))))
+    (action . helm-org-wiki-find-file)))
 
 (defvar helm-source-org-wiki-not-found
-  `((name . "Create org-wiki")
+  '((name . "Create org-wiki")
     (dummy)
-    (action . (lambda (x)
-                (helm-switch-to-buffer
-                 (find-file
-                  (format "%s/%s.org"
-                          helm-org-wiki-directory x)))))))
+    (action . helm-org-wiki-find-file)))
+
 ;;;###autoload
 (defun helm-org-wiki ()
   "Select an org-file to jump to."
@@ -47,7 +66,6 @@
   (helm :sources
         '(helm-source-org-wiki
           helm-source-org-wiki-not-found)))
-
 
 (provide 'helm-org-wiki)
 
