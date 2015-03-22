@@ -27,6 +27,7 @@
 ;;; Code:
 
 (require 'helm)
+(require 'helm-match-plugin)
 
 (defgroup helm-org-wiki nil
   "Simple jump-to-org-file package."
