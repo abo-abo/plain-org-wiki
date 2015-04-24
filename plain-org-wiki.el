@@ -1,4 +1,4 @@
-;;; helm-org-wiki.el --- Simple jump-to-org-files in a directory package
+;;; plain-org-wiki.el --- Simple jump-to-org-files in a directory package
 
 ;; Copyright (C) 2015 Oleh Krehel
 
@@ -26,48 +26,51 @@
 
 ;;; Code:
 
-(require 'helm)
-(require 'helm-match-plugin)
+(require 'ivy)
 
-(defgroup helm-org-wiki nil
+(defgroup plain-org-wiki nil
   "Simple jump-to-org-file package."
   :group 'org
-  :prefix "helm-org-wiki-")
+  :prefix "plain-org-wiki-")
 
-(defcustom helm-org-wiki-directory "~/org/wiki/"
-  "Directory where files for `helm-org-wiki' are stored."
+(defcustom pow-directory "~/org/wiki/"
+  "Directory where files for `plain-org-wiki' are stored."
   :type 'directory)
 
-(defun helm-org-wiki-files ()
-  "Return .org files in `helm-org-wiki-directory'."
-  (let ((default-directory helm-org-wiki-directory))
+(defun pow-files ()
+  "Return .org files in `pow-directory'."
+  (let ((default-directory pow-directory))
     (mapcar #'file-name-sans-extension
             (file-expand-wildcards "*.org"))))
 
-(defun helm-org-wiki-find-file (x)
-  "Open X as a file with org extension in `helm-org-wiki-directory'."
+(defun pow-find-file (x)
+  "Open X as a file with org extension in `pow-directory'."
   (find-file (expand-file-name
               (format "%s.org" x)
-              helm-org-wiki-directory)))
-
-(defvar helm-source-org-wiki
-  '((name . "Projects")
-    (candidates . helm-org-wiki-files)
-    (action . helm-org-wiki-find-file)))
-
-(defvar helm-source-org-wiki-not-found
-  '((name . "Create org-wiki")
-    (dummy)
-    (action . helm-org-wiki-find-file)))
+              pow-directory)))
 
 ;;;###autoload
-(defun helm-org-wiki ()
+(defun plain-org-wiki-helm ()
   "Select an org-file to jump to."
   (interactive)
+  (require 'helm)
+  (require 'helm-match-plugin)
   (helm :sources
-        '(helm-source-org-wiki
-          helm-source-org-wiki-not-found)))
+        '(((name . "Projects")
+           (candidates . pow-files)
+           (action . pow-find-file))
+          ((name . "Create org-wiki")
+           (dummy)
+           (action . pow-find-file)))))
 
-(provide 'helm-org-wiki)
+;;;###autoload
+(defun plain-org-wiki ()
+  "Select an org-file to jump to."
+  (interactive)
+  (let ((r (ivy-read "pattern: " (pow-files))))
+    (when r
+      (pow-find-file r))))
 
-;;; helm-org-wiki.el ends here
+(provide 'plain-org-wiki)
+
+;;; plain-org-wiki.el ends here
