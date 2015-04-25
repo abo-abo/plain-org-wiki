@@ -43,6 +43,15 @@
     (mapcar #'file-name-sans-extension
             (file-expand-wildcards "*.org"))))
 
+(defun pow-files-recursive ()
+  "Return .org files in `pow-directory' and subdirectories."
+  (let ((ffip-project-root pow-directory))
+    (delq nil
+          (mapcar (lambda (x)
+                    (when (equal (file-name-extension (car x)) "org")
+                      (file-name-sans-extension (car x))))
+                  (ffip-project-files)))))
+
 (defun pow-find-file (x)
   "Open X as a file with org extension in `pow-directory'."
   (find-file (expand-file-name
