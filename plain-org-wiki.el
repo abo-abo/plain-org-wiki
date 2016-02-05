@@ -63,7 +63,7 @@
   "Select an org-file to jump to."
   (interactive)
   (require 'helm)
-  (require 'helm-match-plugin)
+  (require 'helm-multi-match)
   (helm :sources
         '(((name . "Projects")
            (candidates . pow-files)
