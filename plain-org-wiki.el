@@ -41,7 +41,9 @@
   "Return .org files in `pow-directory'."
   (let ((default-directory pow-directory))
     (mapcar #'file-name-sans-extension
-            (file-expand-wildcards "*.org"))))
+            (append
+             (file-expand-wildcards "*.org")
+             (file-expand-wildcards "*.org.gpg")))))
 
 (defun pow-files-recursive ()
   "Return .org files in `pow-directory' and subdirectories."
