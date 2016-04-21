@@ -37,13 +37,23 @@
   "Directory where files for `plain-org-wiki' are stored."
   :type 'directory)
 
+(defvar pow-extra-dirs nil
+  "List of extra directories in addition to `pow-directory'.")
+
+(defun pow-files-in-dir (dir)
+  (let ((default-directory dir))
+    (mapcar
+     (lambda (x)
+       (cons (file-name-sans-extension x)
+             (expand-file-name x)))
+     (append
+      (file-expand-wildcards "*.org")
+      (file-expand-wildcards "*.org.gpg")))))
+
 (defun pow-files ()
   "Return .org files in `pow-directory'."
-  (let ((default-directory pow-directory))
-    (mapcar #'file-name-sans-extension
-            (append
-             (file-expand-wildcards "*.org")
-             (file-expand-wildcards "*.org.gpg")))))
+  (mapcan #'pow-files-in-dir
+          (cons pow-directory pow-extra-dirs)))
 
 (defun pow-files-recursive ()
   "Return .org files in `pow-directory' and subdirectories."
@@ -56,9 +66,8 @@
 
 (defun pow-find-file (x)
   "Open X as a file with org extension in `pow-directory'."
-  (find-file (expand-file-name
-              (format "%s.org" x)
-              pow-directory)))
+  (with-ivy-window
+    (find-file x)))
 
 ;;;###autoload
 (defun plain-org-wiki-helm ()
@@ -78,9 +87,8 @@
 (defun plain-org-wiki ()
   "Select an org-file to jump to."
   (interactive)
-  (let ((r (ivy-read "pattern: " (pow-files))))
-    (when r
-      (pow-find-file r))))
+  (ivy-read "pattern: " (pow-files)
+            :action 'pow-find-file))
 
 (provide 'plain-org-wiki)
 
