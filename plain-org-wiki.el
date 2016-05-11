@@ -67,7 +67,14 @@
 (defun pow-find-file (x)
   "Open X as a file with org extension in `pow-directory'."
   (with-ivy-window
-    (find-file x)))
+    (if (file-exists-p x)
+        (find-file x)
+      (if (string-match "org$" x)
+          (find-file
+           (expand-file-name x pow-directory))
+        (find-file
+         (expand-file-name
+          (format "%s.org" x) pow-directory))))))
 
 ;;;###autoload
 (defun plain-org-wiki-helm ()
