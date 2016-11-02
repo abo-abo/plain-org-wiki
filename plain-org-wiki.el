@@ -66,6 +66,8 @@
 
 (defun pow-find-file (x)
   "Open X as a file with org extension in `pow-directory'."
+  (when (consp x)
+    (setq x (cdr x)))
   (with-ivy-window
     (if (file-exists-p x)
         (find-file x)
