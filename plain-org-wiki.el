@@ -52,8 +52,8 @@
 
 (defun pow-files ()
   "Return .org files in `pow-directory'."
-  (mapcan #'pow-files-in-dir
-          (cons pow-directory pow-extra-dirs)))
+  (cl-mapcan #'pow-files-in-dir
+             (cons pow-directory pow-extra-dirs)))
 
 (defun pow-files-recursive ()
   "Return .org files in `pow-directory' and subdirectories."
