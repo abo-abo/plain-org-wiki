@@ -62,7 +62,7 @@
           (mapcar (lambda (x)
                     (when (equal (file-name-extension (car x)) "org")
                       (file-name-sans-extension (car x))))
-                  (ffip-project-files)))))
+                  (ffip-project-search "" nil)))))
 
 (defun pow-find-file (x)
   "Open X as a file with org extension in `pow-directory'."
