@@ -41,6 +41,8 @@
   "List of extra directories in addition to `pow-directory'.")
 
 (defun pow-files-in-dir (dir)
+  "Return a list of cons cells for DIR.
+Each cons cell is a name and file path."
   (let ((default-directory dir))
     (mapcar
      (lambda (x)
