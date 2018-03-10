@@ -1,0 +1,23 @@
+* Intro
+This package provides a completion command for a simple wiki. And I
+mean really simple: it's just a folder with Org files which you can
+complete by name:
+
+#+begin_example
+org-wiki
+├── emacs.org
+├── git.org
+├── links.org
+...
+#+end_example
+
+* Setup
+#+begin_src elisp
+(require 'plain-org-wiki)
+(setq pow-directory "~/org/wiki")
+#+end_src
+
+* Usage
+~M-x~ =plain-org-wiki= gives you a list of all topics you have available
+in =pow-directory=. You can also add a new topic by selecting a name not
+already on the list.
