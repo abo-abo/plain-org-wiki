@@ -94,12 +94,17 @@ Each cons cell is a name and file path."
            (dummy)
            (action . pow-find-file)))))
 
+(defvar pow-history nil
+  "History for `plain-org-wiki'.")
+
 ;;;###autoload
 (defun plain-org-wiki ()
   "Select an org-file to jump to."
   (interactive)
   (ivy-read "pattern: " (pow-files)
-            :action 'pow-find-file))
+            :history 'pow-history
+            :action 'pow-find-file
+            :caller 'plain-org-wiki))
 
 (provide 'plain-org-wiki)
 
