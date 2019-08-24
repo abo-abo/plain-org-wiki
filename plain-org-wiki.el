@@ -1,10 +1,11 @@
 ;;; plain-org-wiki.el --- Simple jump-to-org-files in a directory package
 
-;; Copyright (C) 2015 Oleh Krehel
+;; Copyright (C) 2015-2019 Oleh Krehel
 
 ;; Author: Oleh Krehel <ohwoeowho@gmail.com>
+;; URL: https://github.com/abo-abo/plain-org-wiki
 ;; Version: 0.1.0
-;; Keywords: completion
+;; Keywords: convenience
 
 ;; This file is not part of GNU Emacs
 
@@ -23,6 +24,8 @@
 
 ;;; Commentary:
 ;;
+;; Call `plain-org-wiki' to either open your Org files, or create new
+;; ones.
 
 ;;; Code:
 
