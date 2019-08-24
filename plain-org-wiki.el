@@ -36,14 +36,14 @@
   :group 'org
   :prefix "plain-org-wiki-")
 
-(defcustom pow-directory "~/org/wiki/"
+(defcustom plain-org-wiki-directory "~/org/wiki/"
   "Directory where files for `plain-org-wiki' are stored."
   :type 'directory)
 
-(defvar pow-extra-dirs nil
-  "List of extra directories in addition to `pow-directory'.")
+(defvar plain-org-wiki-extra-dirs nil
+  "List of extra directories in addition to `plain-org-wiki-directory'.")
 
-(defun pow-files-in-dir (dir)
+(defun plain-org-wiki-files-in-dir (dir)
   "Return a list of cons cells for DIR.
 Each cons cell is a name and file path."
   (let ((default-directory dir))
@@ -55,22 +55,22 @@ Each cons cell is a name and file path."
       (file-expand-wildcards "*.org")
       (file-expand-wildcards "*.org.gpg")))))
 
-(defun pow-files ()
-  "Return .org files in `pow-directory'."
-  (cl-mapcan #'pow-files-in-dir
-             (cons pow-directory pow-extra-dirs)))
+(defun plain-org-wiki-files ()
+  "Return .org files in `plain-org-wiki-directory'."
+  (cl-mapcan #'plain-org-wiki-files-in-dir
+             (cons plain-org-wiki-directory plain-org-wiki-extra-dirs)))
 
-(defun pow-files-recursive ()
-  "Return .org files in `pow-directory' and subdirectories."
-  (let ((ffip-project-root pow-directory))
+(defun plain-org-wiki-files-recursive ()
+  "Return .org files in `plain-org-wiki-directory' and subdirectories."
+  (let ((ffip-project-root plain-org-wiki-directory))
     (delq nil
           (mapcar (lambda (x)
                     (when (equal (file-name-extension (car x)) "org")
                       (file-name-sans-extension (car x))))
                   (ffip-project-search "" nil)))))
 
-(defun pow-find-file (x)
-  "Open X as a file with org extension in `pow-directory'."
+(defun plain-org-wiki-find-file (x)
+  "Open X as a file with org extension in `plain-org-wiki-directory'."
   (when (consp x)
     (setq x (cdr x)))
   (with-ivy-window
@@ -78,10 +78,10 @@ Each cons cell is a name and file path."
         (find-file x)
       (if (string-match "org$" x)
           (find-file
-           (expand-file-name x pow-directory))
+           (expand-file-name x plain-org-wiki-directory))
         (find-file
          (expand-file-name
-          (format "%s.org" x) pow-directory))))))
+          (format "%s.org" x) plain-org-wiki-directory))))))
 
 ;;;###autoload
 (defun plain-org-wiki-helm ()
@@ -91,22 +91,22 @@ Each cons cell is a name and file path."
   (require 'helm-multi-match)
   (helm :sources
         '(((name . "Projects")
-           (candidates . pow-files)
-           (action . pow-find-file))
+           (candidates . plain-org-wiki-files)
+           (action . plain-org-wiki-find-file))
           ((name . "Create org-wiki")
            (dummy)
-           (action . pow-find-file)))))
+           (action . plain-org-wiki-find-file)))))
 
-(defvar pow-history nil
+(defvar plain-org-wiki-history nil
   "History for `plain-org-wiki'.")
 
 ;;;###autoload
 (defun plain-org-wiki ()
   "Select an org-file to jump to."
   (interactive)
-  (ivy-read "pattern: " (pow-files)
-            :history 'pow-history
-            :action 'pow-find-file
+  (ivy-read "pattern: " (plain-org-wiki-files)
+            :history 'plain-org-wiki-history
+            :action 'plain-org-wiki-find-file
             :caller 'plain-org-wiki))
 
 (provide 'plain-org-wiki)
