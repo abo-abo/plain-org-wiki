@@ -1,4 +1,4 @@
-;;; plain-org-wiki.el --- Simple jump-to-org-files in a directory package
+;;; plain-org-wiki.el --- Simple jump-to-org-files in a directory package -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2015-2019 Oleh Krehel
 
@@ -20,7 +20,7 @@
 ;; GNU General Public License for more details.
 
 ;; For a full copy of the GNU General Public License
-;; see <http://www.gnu.org/licenses/>.
+;; see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
 ;;
@@ -59,6 +59,8 @@ Each cons cell is a name and file path."
   "Return .org files in `plain-org-wiki-directory'."
   (cl-mapcan #'plain-org-wiki-files-in-dir
              (cons plain-org-wiki-directory plain-org-wiki-extra-dirs)))
+
+(defvar ffip-project-root)
 
 (defun plain-org-wiki-files-recursive ()
   "Return .org files in `plain-org-wiki-directory' and subdirectories."
