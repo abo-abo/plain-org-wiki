@@ -14,10 +14,10 @@ org-wiki
 * Setup
 #+begin_src elisp
 (require 'plain-org-wiki)
-(setq pow-directory "~/org/wiki")
+(setq plain-org-wiki-directory "~/org/wiki")
 #+end_src
 
 * Usage
 ~M-x~ =plain-org-wiki= gives you a list of all topics you have available
-in =pow-directory=. You can also add a new topic by selecting a name not
+in =plain-org-wiki-directory=. You can also add a new topic by selecting a name not
 already on the list.
