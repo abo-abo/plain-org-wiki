@@ -5,6 +5,7 @@
 ;; Author: Oleh Krehel <ohwoeowho@gmail.com>
 ;; URL: https://github.com/abo-abo/plain-org-wiki
 ;; Version: 0.1.0
+;; Package-Requires: ((emacs "24.1"))
 ;; Keywords: convenience
 
 ;; This file is not part of GNU Emacs
