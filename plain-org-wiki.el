@@ -62,6 +62,7 @@ Each cons cell is a name and file path."
              (cons plain-org-wiki-directory plain-org-wiki-extra-dirs)))
 
 (defvar ffip-project-root)
+(declare-function ffip-project-search "ext:find-file-in-project")
 
 (defun plain-org-wiki-files-recursive ()
   "Return .org files in `plain-org-wiki-directory' and subdirectories."
