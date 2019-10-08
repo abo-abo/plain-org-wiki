@@ -5,7 +5,7 @@
 ;; Author: Oleh Krehel <ohwoeowho@gmail.com>
 ;; URL: https://github.com/abo-abo/plain-org-wiki
 ;; Version: 0.1.0
-;; Package-Requires: ((emacs "24.1") (ivy "0.12.0"))
+;; Package-Requires: ((emacs "24.3") (ivy "0.12.0"))
 ;; Keywords: convenience
 
 ;; This file is not part of GNU Emacs
@@ -86,6 +86,8 @@ Each cons cell is a name and file path."
         (find-file
          (expand-file-name
           (format "%s.org" x) plain-org-wiki-directory))))))
+
+;; (declare-function helm "ext:helm.el" t)
 
 ;;;###autoload
 (defun plain-org-wiki-helm ()
