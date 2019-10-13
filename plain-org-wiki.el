@@ -87,14 +87,12 @@ Each cons cell is a name and file path."
          (expand-file-name
           (format "%s.org" x) plain-org-wiki-directory))))))
 
-;; (declare-function helm "ext:helm.el" t)
+(declare-function helm "ext:helm.el" t)
 
 ;;;###autoload
 (defun plain-org-wiki-helm ()
   "Select an org-file to jump to."
   (interactive)
-  (require 'helm)
-  (require 'helm-multi-match)
   (helm :sources
         '(((name . "Projects")
            (candidates . plain-org-wiki-files)
