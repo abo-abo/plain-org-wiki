@@ -44,6 +44,9 @@
 (defvar plain-org-wiki-extra-dirs nil
   "List of extra directories in addition to `plain-org-wiki-directory'.")
 
+(defvar plain-org-wiki-extra-files nil
+  "List of extra files.")
+
 (defun plain-org-wiki-files-in-dir* (dir)
   "Return a list of absolute paths of org files in DIR."
   (let ((default-directory dir))
@@ -53,24 +56,30 @@
       (file-expand-wildcards "*.org")
       (file-expand-wildcards "*.org.gpg")))))
 
+(defun plain-org-wiki--item (fname)
+  "Transform FNAME into a cons cell."
+  (cons (file-name-nondirectory
+         (file-name-sans-extension fname))
+        fname))
+
 (defun plain-org-wiki-files-in-dir (dir)
   "Return a list of cons cells for DIR.
 Each cons cell is a name and file path."
   (mapcar
-   (lambda (x)
-     (cons (file-name-sans-extension x)
-           x))
+   #'plain-org-wiki--item
    (plain-org-wiki-files-in-dir* dir)))
 
 (defun plain-org-wiki-files ()
   "Return cons cells for files in `plain-org-wiki-directory'.
 Each cons cell is a name and file path."
-  (cl-mapcan #'plain-org-wiki-files-in-dir
-             (cons plain-org-wiki-directory plain-org-wiki-extra-dirs)))
+  (append
+   (cl-mapcan #'plain-org-wiki-files-in-dir
+              (cons plain-org-wiki-directory plain-org-wiki-extra-dirs))
+   (mapcar #'plain-org-wiki--item plain-org-wiki-extra-files)))
 
 (defun plain-org-wiki-refile-targets ()
-  "Return a list of files in `plain-org-wiki-directory' suitable
-for use in `org-refile-targets'."
+  "Return a list of files in `plain-org-wiki-directory'.
+Suitable for use in `org-refile-targets'."
   (cl-mapcan #'plain-org-wiki-files-in-dir*
              (cons plain-org-wiki-directory plain-org-wiki-extra-dirs)))
 
