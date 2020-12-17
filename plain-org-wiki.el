@@ -65,9 +65,10 @@
 (defun plain-org-wiki-files-in-dir (dir)
   "Return a list of cons cells for DIR.
 Each cons cell is a name and file path."
-  (mapcar
-   #'plain-org-wiki--item
-   (plain-org-wiki-files-in-dir* dir)))
+  (when (file-exists-p dir)
+    (mapcar
+     #'plain-org-wiki--item
+     (plain-org-wiki-files-in-dir* dir))))
 
 (defun plain-org-wiki-files ()
   "Return cons cells for files in `plain-org-wiki-directory'.
